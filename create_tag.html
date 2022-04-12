@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fa">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>create tag</title>
+
+    <style>
+        body {
+            direction: rtl;
+            font-family: tahoma;
+            line-height: 35px;
+            font-size: 16px;
+        }
+
+        #container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        div#container>* {
+            margin: 5px 0;
+            border: 0;
+        }
+
+        input[type='text'] {
+            padding: 3px;
+            font-family: tahoma;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+
+        p {
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <form>
+        <label>نوع کالا (بصورت عامیانه «لباسشویی» وارد شود):</label><input type="text" name="content_type"
+            id="content_type" autofocus onkeyup="generate_tag();"><br>
+        <label>گروه کالا (مانند «اتوماتیک»):</label>
+        <input type="text" name="group" id="group" onkeyup="generate_tag();"><br>
+        <label>برند کالا (مانند «جی پلاس»):</label>
+        <input type="text" name="brand" id="brand" onkeyup="generate_tag();"><br>
+        <label>سازنده کالا:</label>
+        <input type="radio" id="made_in_iran" name="made_in" value="ایران" checked onchange="generate_tag();">
+        <label for="made_in_iran">ایران</label> &nbsp; &nbsp;
+        <input type="radio" id="made_in_kharej" name="made_in" value="خارج" onchange="generate_tag();">
+        <label for="made_in_kharej">خارج</label><br>
+    </form>
+    <hr>
+    <div id="container">
+        <!-- بهترین مارک + نوع + زیرگروه -->
+        <input type="text" id="bestmark_type_group">
+        <!-- نوع + قسطی -->
+        <input type="text" id="type_ghesti">
+        <!--خرید + نوع + با حکمت کارت -->
+        <input type="text" id="type_hekmat">
+        <!-- بهترین + نوع + زیرگروه -->
+        <input type="text" id="best_type_group">
+        <!-- بهترین + نوع + زیرگروه + ایرانی یا خارجی -->
+        <input type="text" id="best_type_group_made">
+        <!-- نوع + ‌زیرگروه + برند -->
+        <input type="text" id="type_group_brand">
+        <!-- قیمت + نوع + زیرگروه + برند -->
+        <input type="text" id="price_type_group_brand">
+        <!-- بهترین + نوع + زیرگروه + برند -->
+        <input type="text" id="best_type_group_brand">
+    </div>
+    <script>
+        function generate_tag() {
+            var content_type = document.getElementById('content_type').value;
+            var group = document.getElementById('group').value;
+            var brand = document.getElementById('brand').value;
+            var made_in = document.getElementsByName('made_in');
+            document.getElementById('bestmark_type_group').value = ("بهترین مارک" + " " + content_type + " " + group).replace(/  /g, " ");
+            document.getElementById('type_ghesti').value = (content_type + " " + "قسطی").replace(/  /g, " ");
+            document.getElementById('type_hekmat').value = ("خرید" + " " + content_type + " " + "با حکمت کارت").replace(/  /g, " ");
+            document.getElementById('best_type_group').value = ("بهترین" + " " + content_type + " " + group).replace(/  /g, " ");
+            if (made_in[0].checked) {
+                document.getElementById('best_type_group_made').value = ("بهترین" + " " + content_type + " " + group + " " + "ایرانی").replace(/  /g, " ");
+            } else if (made_in[1].checked) {
+                document.getElementById('best_type_group_made').value = ("بهترین" + " " + content_type + " " + group + " " + "خارجی").replace(/  /g, " ");
+            }
+            document.getElementById('type_group_brand').value = (content_type + " " + group + " " + brand).replace(/  /g, " ");
+            document.getElementById('price_type_group_brand').value = ("قیمت" + " " + content_type + " " + group + " " + brand).replace(/  /g, " ");
+            document.getElementById('best_type_group_brand').value = ("بهترین" + " " + content_type + " " + group + " " + brand).replace(/  /g, " ");
+        }
+    </script>
+
+</body>
+
+</html>
